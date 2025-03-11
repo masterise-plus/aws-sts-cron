@@ -2,6 +2,8 @@ import boto3
 import os
 import requests
 import json
+import time
+from datetime import datetime
 from dotenv import load_dotenv
 
 def refresh_aws_credentials():
@@ -84,14 +86,24 @@ def update_langflow_variables(new_creds):
         print(f"Error updating LangFlow variables: {str(e)}")
 
 if __name__ == "__main__":
-  
     load_dotenv()
-
-    # Refresh AWS credentials
-    new_creds = refresh_aws_credentials()
     
-    print(new_creds)
-    # Update LangFlow variables via API
-    update_langflow_variables(new_creds)
-    
-    print("Credential rotation process completed!")
+    # Run indefinitely
+    while True:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{current_time}] Starting credential rotation process...")
+        
+        try:
+            # Refresh AWS credentials
+            new_creds = refresh_aws_credentials()
+            
+            # Update LangFlow variables via API
+            update_langflow_variables(new_creds)
+            
+            print(f"[{current_time}] Credential rotation process completed!")
+        except Exception as e:
+            print(f"[{current_time}] Error during credential rotation: {str(e)}")
+        
+        # Sleep for 24 hours (86400 seconds)
+        print(f"[{current_time}] Next rotation scheduled in 24 hours")
+        time.sleep(86400)

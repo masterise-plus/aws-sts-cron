@@ -1,6 +1,6 @@
 # AWS Bedrock Token Refresher
 
-A Python application that refreshes AWS credentials using STS and updates them in LangFlow via API.
+A Python application that refreshes AWS credentials using STS and updates them in LangFlow via API. The application runs continuously and automatically refreshes credentials every 24 hours.
 
 ## Environment Variables
 
