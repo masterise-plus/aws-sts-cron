@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  aws-bedrock-token-refresher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./.env:/app/.env:ro
